@@ -32,7 +32,7 @@ class RabbitMQLaravelServiceProvider extends ServiceProvider
     public function register()
     {
 
-	    $this->app->bind('Kontoulis\RabbitMQLaravel\RabbitMQ', function ($app) {
+	    $this->app->signleton('Kontoulis\RabbitMQLaravel\RabbitMQ', function ($app) {
 			$config = $app['config']->get("rabbitmq-laravel");
 		    return new RabbitMQ($config);
 	    });
