@@ -42,7 +42,7 @@ class Message
      * @param array                           $config
      */
 
-    public function __construct(array $msg, $routingKey = null, array $config = array() )
+    public function __construct($msg, $routingKey = null, array $config = array() )
     {
         /* Dynamic properties */
         foreach($msg as $key => $value){
