@@ -281,7 +281,9 @@ class Broker extends AMQPChannel
      */
     protected function waitConsume($options = []){
         $consume = true;
-        while (count($this->callbacks) && $consume) {
+        $lifetime = $options['lifetime'] ?? 300;
+        $time = time();
+        while (count($this->callbacks) && $consume && abs($time - time()) <= $lifetime) {
             try{
                 $this->wait((isset($options["allowed_methods"]) ?$options["allowed_methods"] : null),
                     (isset($options["non_blocking"]) ?$options["non_blocking"] : false), $this->consumeTimeout);
