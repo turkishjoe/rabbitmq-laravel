@@ -50,7 +50,7 @@ class Message
         }
         $this->routingKey = $routingKey;
         $this->config = $config;
-        $this->amqpMessage = new AMQPMessage(json_encode($msg), $config);
+        $this->amqpMessage = new AMQPMessage($msg, $config);
     }
 
     /**
@@ -108,7 +108,7 @@ class Message
      * @return object|array
      */
     public function getData($assoc = false){
-        return json_decode($this->getBody(), $assoc);
+        return $this->getBody();
     }
 
 
@@ -122,7 +122,7 @@ class Message
     public static function fromAMQPMessage(AMQPMessage $AMQPMessage)
     {
         $msg = new Message(
-            json_decode($AMQPMessage->body, true),
+            $AMQPMessage->body,
             $AMQPMessage->delivery_info['routing_key'],
             $AMQPMessage->get_properties()
         );
@@ -217,7 +217,7 @@ class Message
      */
     public function updateAMQPMessage()
     {
-        $this->amqpMessage->setBody(json_encode($this->getBody()));
+        $this->amqpMessage->setBody($this->getBody());
     }
 
 }
