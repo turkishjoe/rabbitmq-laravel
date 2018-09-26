@@ -44,10 +44,6 @@ class Message
 
     public function __construct($msg, $routingKey = null, array $config = array() )
     {
-        /* Dynamic properties */
-        foreach($msg as $key => $value){
-            $this->$key = $value;
-        }
         $this->routingKey = $routingKey;
         $this->config = $config;
         $this->amqpMessage = new AMQPMessage($msg, $config);
