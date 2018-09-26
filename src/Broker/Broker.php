@@ -107,10 +107,10 @@ class Broker extends AMQPChannel
      * @param $message
      * @param null $routingKey
      */
-    public function publishMessage($message, $routingKey = null)
+    public function publishMessage($message, $routingKey = null, $config = [])
     {
         $this->queueDeclareBind($routingKey);
-        $msg = new Message($message, $routingKey);
+        $msg = new Message($message, $routingKey, $config);
         // Create the message
         $amqpMessage = $msg->getAMQPMessage();
         $this->basic_publish($amqpMessage, $this->exchange, $routingKey);
