@@ -2,7 +2,10 @@
 
 namespace Kontoulis\RabbitMQLaravel;
 
+use App\Services\Consts\LoggerChannels;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\ServiceProvider;
+use Kontoulis\RabbitMQLaravel\Exception\BrokerException;
 
 /**
  * Class RabbitMQLaravelServiceProvider
@@ -34,7 +37,13 @@ class RabbitMQLaravelServiceProvider extends ServiceProvider
 
 	    $this->app->singleton('Kontoulis\RabbitMQLaravel\RabbitMQ', function ($app) {
 			$config = $app['config']->get("rabbitmq-laravel");
-		    return new RabbitMQ($config);
+			try{
+                return new RabbitMQ($config);
+            }catch (BrokerException $exception){
+			    Log::channel(LoggerChannels::CONTAINER_LOG)
+                    ->info('can not to connect to rabbit', ['exception'=>$exception->getMessage()]);
+			    return new FakeRabbitMQ($config);
+            }
 	    });
 	    
     }
