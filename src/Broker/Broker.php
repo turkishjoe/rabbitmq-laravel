@@ -71,11 +71,13 @@ class Broker extends AMQPChannel
             parent::__construct($connection);
 
         } catch (\Exception $ex) {
-            throw new BrokerException(
+           /*
+           TODO: Move to config
+           throw new BrokerException(
                 'Fatal error while initializing AMQP connection: '
                 . $ex->getMessage(),
                 $ex->getCode()
-            );
+            );*/
         }
     }
 
